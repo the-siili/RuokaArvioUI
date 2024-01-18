@@ -1,12 +1,25 @@
 import tkinter as tk
-import time
+import time, requests, json
 
 
 
 
-def pressed(txt):
-    txt.config(text='Kiitos Vastauksesta!')
-    #send shit
+def pressed(txt, rating):
+    
+    try:
+        url = 'https://ksyk-food-rating-average.onrender.com/receive_post'  # Update with the correct URL
+
+        data_to_send = rating
+
+        headers = {'Content-Type': 'application/json'}
+
+        response = requests.post(url, data=json.dumps(data_to_send), headers=headers)
+        txt.config(text=response.text)
+        time.sleep(1)
+        txt.config(text='Kiitos Vastauksesta!')
+    except:
+        txt.config(text='Lähettämisessä oli ongelma!')
+
     time.sleep(2)
 
     txt.config(text="Miten arvioisit tämän päivän ruoan?")
